@@ -29,6 +29,7 @@ A játékot 2 vagy több játékos játssza, egy ­– kezdetben üres – négy
 
 ##Mérföldkövek megvalósítása
 Az egyes mérföldkövek megvalósítása a következő lépésekben (minden java osztályra):
+
 1. Specifikálás: Csomagstruktúra, interfészek, osztály skeletonok létrehozása, doc kommentek kitöltése
 2. Implementálás: Funkciók implementálása doc kommentek alapján
 3. Tesztelés (Talán JUnit):
