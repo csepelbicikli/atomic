@@ -24,7 +24,12 @@ public class AtomicFrame extends JFrame{
 	 * Téglalap táblájú játék konstruktorja
 	 * <p> 
 	 * A fejlesztés jelenlegi fázisában 2 előre definiált (kék-piros) játékosunk van.
-	 * 
+	 * A gomobok megfelelően méretezett GridLayout-ban helyezkednek el,
+	 * alatta állapotsor található.
+	 * A gombokra kattintáskor aktiválódik azoknak ActionListener-je,
+	 * amely megkísérli elvégezni a kő elhelyezését. 
+	 * A művelet sikere esetén a tábla újrarajzolódik és játékosváltás történik.
+	 * Nyerés esetén üzenetablak tájékoztatja a nyertest majd a program leáll.
 	 * 
 	 */
 	public AtomicFrame(int x, int y){
@@ -49,18 +54,19 @@ public class AtomicFrame extends JFrame{
 		for(int i=0;i<x;i++){
 			for(int j=0;j<y;j++){
 				gomb[i][j]=new JButton("");
-				final int i_tmp = i, j_tmp = j;
+				final int i_tmp = i, j_tmp = j;//belső class csak final lokális változókat fogad el
 				gomb[i][j].addActionListener(ae -> {
 					if (rahelyez(i_tmp,j_tmp,aktual)){ //ha sikerült rárakni
 						frissit();
 						valt();
 						if (nyert()!=null){
 							JOptionPane.showMessageDialog(this,nyert().getNev()+" nyert.");
+							this.dispose();
 							return;
 						}
 					}
 				});
-				gomb[i][j].setOpaque(true);
+				gomb[i][j].setOpaque(true);//egyéni háttérszin swing gomboknak
 				panel.add(gomb[i][j]);
 			}
 		}

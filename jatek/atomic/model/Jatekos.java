@@ -3,27 +3,18 @@ public class Jatekos{
 	public static int c=0;
 	private int id;
 	private String nev;
-	private int mezok;
 	private Szin szin;
 	
+	/**
+	 * A játékosnak van neve, színe és egy id-je,
+	 * melyet a c nevű statikus egész növelése alapján kap.
+	 *  
+	 */
 	public Jatekos(String nev,Szin szin){
 		this.id=c++;
 		this.nev=nev;
-		mezok= -1;
 		this.szin=szin;
 	}
-	
-	public void incMezok(){
-		if (mezok==-1){
-			mezok=1;
-		} else {
-			mezok++;
-		}
-	}
-	
-	public void decMezok() {mezok--;}
-	
-	public boolean vesztett() {return mezok == 0;}
 	
 	public String getNev() {return nev;}
 	
@@ -31,6 +22,11 @@ public class Jatekos{
 	
 	public Szin getSzin() {return szin;}
 	
+	/**
+	 * Két játékos összevetésére equals,
+	 * a Jatekos osztály ˝c˝ nevű statikus tagja által
+	 * adott ID alapján hasonlít össze.
+	 */
 	@Override public boolean equals(Object o) {
 		boolean result = false;
 		if (o instanceof Jatekos) {

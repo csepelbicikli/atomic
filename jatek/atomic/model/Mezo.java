@@ -11,6 +11,11 @@ public class Mezo{
 		this.szam = 0;
 	}
 	
+	/**
+	 * Ha telített egy mező akkor nullázza a vezérlés ész szétosztja 
+	 * a köveket a szomszédok között
+	 * 
+	 */
 	public boolean telitett(){
 		return(szam==limit);
 	}
@@ -32,8 +37,6 @@ public class Mezo{
 	}
 	
 	public void setJatekos(Jatekos jt){
-		if (this.jt!=null) jt.decMezok();
-		if (jt     !=null) jt.incMezok();
 		this.jt=jt;
 	}
 }
