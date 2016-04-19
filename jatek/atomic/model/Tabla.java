@@ -2,28 +2,38 @@ package jatek.atomic.model;
 
 /**
  * Játéktábla modellje, mely lehet 
- * <p>
- * -téglalap alakú (2 paraméter), 
- * <p>
- * -vagy négyzetes(1 paraméter).
- * <p>
+ * <ul>
+ * <li>- téglalap alakú (2 paraméter),</li>
+ * <li>- vagy négyzetes(1 paraméter).</li>
+ * </ul>
  * A tábla elemei <b>Mezo</b> objektumok.
- * 
+ * @author Mészáros Balázs
+ * @version 1
  */
 public class Tabla {
-	
+	/**
+         * Mezőket tartalmazó 2 dimenziós konténer
+         */
 	private Mezo[][] mezok;
 	
 	/**
 	 * Négyzetes tábla konstruálása
+         * @param x A tábla sorainak és oszlopainak száma
 	 */
 	public Tabla(int x){
 		this(x,x);
-		
 	}
 	
 	/**
 	 * Téglalap alakú tábla konstruálása
+         * <p>
+         * A konstruktor a következő műveleteket végzi el:
+         * <ul>
+         * <li>Létrehozza a mezőket tartalmazó konténert</li>
+         * <li>Létrehozza a mező objektumokat, a megfelelő telítettségi limitekkel (2 a sarkokon, 3 a széleken, 4 a többi mezőn) és feltölti velük a konténert</li>
+         * </ul>
+         * @param x Tábla sorainak száma
+         * @param y Tábla oszlopainak száma
 	 */
 	public Tabla(int x, int y){
 		mezok = new Mezo[x][y];
@@ -47,25 +57,30 @@ public class Tabla {
 	}
 	
 	/**
-	 * Tábla oszlopainak száma
+	 * Getter függvény a tábla magasságának lekérdezéséhez
+         * @return Tábla sorainak száma
 	 */
 	public int getX(){
 		return mezok.length;
 	}
 	
 	/**
-	 * Tábla sorainak száma 
+	 * Getter függvény a tábla szélességének lekérdezéséhez
+         * @return Tábla oszlopainak száma
 	 */
 	public int getY(){
 		return mezok[0].length;
 	}
 	
 	/**
-	 * Tábla mezőjének lekérdezése
+	 * Getter függvény, a tábla mezőinek eléréséhez
+         * <p>
+         * A sorok és oszlopok indexelése is 0-tól kezdődik
+         * @param x Sor index
+         * @param y Oszlop index
+         * @return Az x. sor y. oszlopán elhelyezkedő Mezo objektum
 	 */ 
 	public Mezo getMezo(int x,int y){
 		return mezok[x][y];
 	}
-	
-	
 }
