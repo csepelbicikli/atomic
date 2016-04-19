@@ -34,8 +34,8 @@ public class AtomicFrame extends JFrame{
 	 */
 	public AtomicFrame(int x, int y){
 		tabla=new Tabla(x,y);
-		jatekos1=new Jatekos("1. jatekos",Szin.PIROS);
-		jatekos2=new Jatekos("2. jatekos",Szin.KEK);
+		jatekos1=new Jatekos("1. jatekos",Jatekos.Szin.PIROS);
+		jatekos2=new Jatekos("2. jatekos",Jatekos.Szin.KEK);
 		aktual = jatekos1;
 		
 		this.setVisible(true);
@@ -76,12 +76,12 @@ public class AtomicFrame extends JFrame{
 	/**
 	 * A Szin enum színeit fordítja át AWT-s színekre
 	 */	
-	public static Color getColor(Szin sz){
-		if(sz==Szin.KEK)return Color.BLUE;
-		if(sz==Szin.SARGA)return Color.YELLOW;
-		if(sz==Szin.ZOLD)return Color.GREEN;
-		if(sz==Szin.PIROS)return Color.RED;
-		if(sz==Szin.FEHER)return Color.WHITE;
+	public static Color getColor(Jatekos.Szin sz){
+		if(sz==Jatekos.Szin.KEK)return Color.BLUE;
+		if(sz==Jatekos.Szin.SARGA)return Color.YELLOW;
+		if(sz==Jatekos.Szin.ZOLD)return Color.GREEN;
+		if(sz==Jatekos.Szin.PIROS)return Color.RED;
+		if(sz==Jatekos.Szin.FEHER)return Color.WHITE;
 		return Color.BLACK;//ha bovited a szineket ird bele
 							//kulonben ezt kapod
 	}
