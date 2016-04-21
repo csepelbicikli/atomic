@@ -10,50 +10,51 @@ package jatek.atomic.model;
  * @author Mészáros Balázs
  * @version 1
  */
-public class Tabla {
+public class Tabla<FieldType extends Mezo> {
 	/**
          * Mezőket tartalmazó 2 dimenziós konténer
          */
-	private Mezo[][] mezok;
-	
-	/**
-	 * Négyzetes tábla konstruálása
-         * @param x A tábla sorainak és oszlopainak száma
-	 */
-	public Tabla(int x){
-		this(x,x);
-	}
+	private FieldType[][] mezok;
 	
 	/**
 	 * Téglalap alakú tábla konstruálása
          * <p>
-         * A konstruktor a következő műveleteket végzi el:
-         * <ul>
-         * <li>Létrehozza a mezőket tartalmazó konténert</li>
-         * <li>Létrehozza a mező objektumokat, a megfelelő telítettségi limitekkel (2 a sarkokon, 3 a széleken, 4 a többi mezőn) és feltölti velük a konténert</li>
-         * </ul>
-         * @param x Tábla sorainak száma
-         * @param y Tábla oszlopainak száma
+         * A konstruktor a mezőket tartalmazó tömb elemein végigiterál, és minden elemére
+         * beállítja a megfelelő limitet
+         * <p>
+         * Ha a tömb valamely dimenziója túl kicsi, vagy bármely eleme null, kivételt dob
+         * @param fieldSet Kétdimenziós, legalább 2x2 méretű tömb, ami a mezőket tartalmazza
+         * @exception java.lang.IllegalArgumentException
 	 */
-	public Tabla(int x, int y){
-		mezok = new Mezo[x][y];
-		mezok[0][0]=new Mezo(2,null);  		//É.Ny.
-		mezok[0][y-1]=new Mezo(2,null); 	//D.Ny
-		mezok[x-1][0]=new Mezo(2,null); 	//É.K.
-		mezok[x-1][y-1]=new Mezo(2,null);	//D.K.
-		for(int i=1;i<x-1;i++){
-			mezok[i][0]  =new Mezo(3,null);	//Észak
-			mezok[i][y-1]=new Mezo(3,null); //Dél
-		}
-		for(int j=1;j<y-1;j++){
-			mezok[0][j]  =new Mezo(3,null);	//Nyugat
-			mezok[x-1][j]=new Mezo(3,null); //Kelet
-		}
-		for(int i=1;i<x-1;i++){
-			for(int j=1;j<y-1;j++){
-				mezok[i][j]=new Mezo(4,null);//Többi
-			}
-		}
+	public Tabla(FieldType[][] fieldSet)throws java.lang.IllegalArgumentException {
+            if (fieldSet.length > 1){
+                if (fieldSet[0].length < 2)
+                    throw new java.lang.IllegalArgumentException("A táblának túl kevés oszlopa van (minimum 2)");
+            } else throw new java.lang.IllegalArgumentException("A táblának túl kevés sora van (minimum 2)");
+            
+            mezok = fieldSet;
+            int i = 0, j = 0;
+            try{
+                mezok[0][0].setLimit(2);
+                mezok[0][fieldSet[0].length - 1].setLimit(2);
+                mezok[fieldSet.length - 1][0].setLimit(2);
+                mezok[fieldSet.length - 1][fieldSet[0].length - 1].setLimit(2);
+                for(i=1;i<fieldSet.length - 1;i++){
+                        mezok[i][0].setLimit(3);
+                        mezok[i][fieldSet[0].length - 1].setLimit(3);
+                }
+                for(j=1;j<fieldSet[0].length - 1;j++){
+                        mezok[0][j].setLimit(3);
+                        mezok[fieldSet.length - 1][j].setLimit(3);
+                }
+                for(i=1;i<fieldSet.length - 1;i++){
+                        for(j=1;j<fieldSet[0].length - 1;j++){
+                                mezok[i][j].setLimit(4);
+                        }
+                }
+            } catch (java.lang.NullPointerException e){
+                throw new java.lang.IllegalArgumentException("Null érték a(z) (" + i + "; " + j + ") helyen");
+            }
 	}
 	
 	/**
@@ -61,7 +62,7 @@ public class Tabla {
          * @return Tábla sorainak száma
 	 */
 	public int getX(){
-		return mezok.length;
+            return mezok.length;
 	}
 	
 	/**
@@ -69,18 +70,23 @@ public class Tabla {
          * @return Tábla oszlopainak száma
 	 */
 	public int getY(){
-		return mezok[0].length;
+            return mezok[0].length;
 	}
 	
 	/**
 	 * Getter függvény, a tábla mezőinek eléréséhez
          * <p>
-         * A sorok és oszlopok indexelése is 0-tól kezdődik
+         * A sorok és oszlopok indexelése is 0-tól kezdődik, érvénytelen index esetén kivételt dob
          * @param x Sor index
          * @param y Oszlop index
          * @return Az x. sor y. oszlopán elhelyezkedő Mezo objektum
+         * @exception java.lang.IllegalArgumentException
 	 */ 
-	public Mezo getMezo(int x,int y){
-		return mezok[x][y];
+	public FieldType getMezo(int x,int y) throws java.lang.IllegalArgumentException{
+            if (x < 0 || x > mezok.length)
+                throw new java.lang.IllegalArgumentException("Hibás sorindex");
+            else if (y < 0 || y > mezok[0].length)
+                throw new java.lang.IllegalArgumentException("Hibás oszlopindex");
+            return mezok[x][y];
 	}
 }

@@ -21,22 +21,22 @@ public class Jatekos{
     /**
      * Statikus számláló, új játékosok azonosítójának előállításához
      */
-    public static int c=0;
+    private static int c=0;
     
     /**
      * Játékos azonosítója, egy futtatáson belül egyedi
      */
-    private int id;
+    private final int id;
     
     /**
      * Játékos neve
      */
-    private String nev;
+    private final String nev;
     
     /**
      * Játékos színe
      */
-    private Szin szin;
+    private final Szin szin;
 
     /**
      * A játékosnak van neve, színe és egy id-je,

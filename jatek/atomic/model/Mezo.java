@@ -8,7 +8,7 @@ public class Mezo{
 	/**
          * A mezőt telítő kövek száma
          */
-	private final int limit;
+	private int limit;
         
         /**
          * A mezőn lévő kövek száma
@@ -23,13 +23,21 @@ public class Mezo{
         /**
          * A mezőt inicializáló konstruktor
          * @param limit A mezőt telítő kövek száma, egyenlő a vízszintesen, illetve függőlegesen szomszédos mezők számával
-         * @param j A mezőt birtokló játékos
          */
-	public Mezo(int limit, Jatekos j){
+	public Mezo(int limit){
 		this.limit = limit;
-		this.jt  = jt ;
+		this.jt  = null;
 		this.szam = 0;
 	}
+        
+        /**
+         * Alapértelmezett konstruktor
+         */
+        public Mezo(){
+           this.limit = 1;
+           this.jt = null;
+           this.szam = 0;
+        }
 	
 	/**
 	 * Ha telített egy mező akkor nullázza a vezérlés ész szétosztja 
@@ -77,4 +85,22 @@ public class Mezo{
 	public void setJatekos(Jatekos jt){
 		this.jt=jt;
 	}
+        
+        /**
+         * Setter függvény a mezőre helyezhető kövek maximális számának megadásához
+         * <p>
+         * A mezőre helyezhető kövek limitjét a paranméterként megadott értékre állítja,
+         * ha az nagyobb vagy egyenlő mint a mezőn lévő kövek száma, egyébként nem csinál semmit
+         * <p>
+         * Ha az új érték 0 vagy negatív, az eljárás java.lang.IllegalArgumentException kivételt dob
+         * @param pLimit új limit, csak pozitív egész szám lehet
+         * @exception java.lang.IllegalArgumentException
+         */
+        public void setLimit(int pLimit) throws java.lang.IllegalArgumentException{
+            if (pLimit <= 0)
+                throw new java.lang.IllegalArgumentException("A mező limitje csak pozitív egész lehet");
+            if (this.szam <= pLimit){
+                this.limit = pLimit;
+            }
+        }
 }
