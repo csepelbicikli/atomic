@@ -8,6 +8,7 @@ package jatek.atomic.model;
  * </ul>
  * A tábla elemei <b>Mezo</b> objektumok.
  * @author Mészáros Balázs
+ * @author Németh Péter
  * @version 1
  */
 public class Tabla<FieldType extends Mezo> {

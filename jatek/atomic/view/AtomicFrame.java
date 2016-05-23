@@ -15,7 +15,13 @@ import java.nio.file.Paths;
 import java.util.List;
 import java.util.LinkedList;
 import java.util.ArrayList;
-
+/**
+ * A játék megjelenítését és irányítását megvalósító JFrame leszármazott osztály.
+ * A main() függvény itt található.
+ * @author Mészáros Balázs
+ * @author Németh Péter
+ * @version 1
+ */
 public class AtomicFrame extends JFrame{
 	
     private Tabla tabla;
@@ -33,15 +39,14 @@ public class AtomicFrame extends JFrame{
     }
 
     /**
-     * Téglalap táblájú játék konstruktorja
+     * <i>Téglalap táblájú játék konstruktorja</i>
      * <p> 
      * A fejlesztés jelenlegi fázisában 2 előre definiált (kék-piros) játékosunk van.
-     * A gomobok megfelelően méretezett GridLayout-ban helyezkednek el,
+     * <p>
+     * A gombok megfelelően méretezett GridLayout-ban helyezkednek el,
      * alatta állapotsor található.
-     * A gombokra kattintáskor aktiválódik azoknak ActionListener-je,
-     * amely megkísérli elvégezni a kő elhelyezését. 
-     * A művelet sikere esetén a tábla újrarajzolódik és játékosváltás történik.
-     * Nyerés esetén üzenetablak tájékoztatja a nyertest majd a program leáll.
+     * <p>
+     * A konstruktor új játékot indít, ahol az első játékos kezd.
      * <p>
      * A játék újrakezdhető a tábla felett elhelyezett 'Játék újrakezdése' gombra való kattintással.
      */
@@ -74,9 +79,18 @@ public class AtomicFrame extends JFrame{
             
 		start(ujTabla(x, y),1);
 	}
-	
-	public void start(Tabla tabla, int kezdo){
-            //tabla = this.ujTabla(x, y);
+	/**
+	 * Új játékmenet indítása
+	 * <p>
+	 * A gombokra kattintáskor aktiválódik azoknak ActionListener-je,
+     * amely megkísérli elvégezni a kő elhelyezését. 
+     * A művelet sikere esetén a tábla újrarajzolódik és játékosváltás történik.
+     * Nyerés esetén a program az állapotsoron tájékoztatja a nyertest majd a program leáll.
+     * 
+     * @param tabla A kiindulási tábla
+     * @param kezdo Kezdőjátékos száma (1 vagy 2)
+	 */
+	private void start(Tabla tabla, int kezdo){
             this.tabla = tabla;
 			if(kezdo==1){
 				aktual = jatekos1;
@@ -103,9 +117,6 @@ public class AtomicFrame extends JFrame{
 													for( ActionListener al : mentesGomb.getActionListeners() ) {
 														mentesGomb.removeActionListener( al );
 													}
-                                                    //JOptionPane.showMessageDialog(this,nyert().getNev()+" nyert.");
-                                                    //this.dispose();
-                                                    //return;
                                             }
                                     }
                             });
@@ -117,7 +128,12 @@ public class AtomicFrame extends JFrame{
             frissit();
     }
     
-	public void stop(){
+    /**
+     * Segédfüggvény játékmenet leállításához
+     * <p>
+     * Letiltja a tábla gombjait, majd törli őket.
+     */
+	private void stop(){
 		for(int i=0;i<tabla.getX();i++){
 			for(int j=0;j<tabla.getY();j++){
 				for( ActionListener al : gomb[i][j].getActionListeners() ) {
@@ -126,19 +142,29 @@ public class AtomicFrame extends JFrame{
 				panel.remove(gomb[i][j]);
 			}
 		}
-		for( ActionListener al : mentesGomb.getActionListeners() ) {
-			mentesGomb.removeActionListener( al );
-		}
 	}
 	
-	public void reset(){
+	/**
+	 * Játék újrakezdése
+	 * <p>
+	 * Először letiltja és törli az aktuális játékmenet gombjait,
+	 * majd felrajzolja az új táblához tartozókat. 
+	 */
+	private void reset(){
 		stop();
 		int x = tabla.getX();
 		int y = tabla.getY();
 		start(ujTabla(x, y),1);
 	}
 	
-	public void betolt(){
+	/**
+	 * Játék betöltése
+	 * <p>
+	 * Beégetett fájlból(<i>data.txt</i>) tölt be elmentett játékmenetet,
+	 * és a játék mentésének pillanatában soron levő játékos kapja meg a 
+	 * vezérlést.
+	 */
+	private void betolt(){
 		Tabla t=null;
 		List<String> sorok=null;
 		try{	
@@ -150,7 +176,6 @@ public class AtomicFrame extends JFrame{
 			for(int i=0;i<x;++i){
 				String s = sorok.get(i+3);
 				for(int j=0;j<x;++j){
-					System.out.println(i+","+j);
 					int szam = Integer.parseInt(s.substring(j*2,j*2+1));
 					char betu = s.charAt(j*2+1);
 					if(betu=='a'){
@@ -170,7 +195,6 @@ public class AtomicFrame extends JFrame{
 			ex.printStackTrace();
 			cimke.setText("Hiba a data.txt betoltesekor.");
 		}
-		System.out.println("hopp");
 		stop();
 		if(sorok.get(0).equals("a")) {
 			start(t,1);
@@ -178,13 +202,25 @@ public class AtomicFrame extends JFrame{
 			start(t,2);
 		}
 	}
-	
-	public void ment(){
-		/*if(!jatekos2.equals(aktual) && !jatekos2.equals(aktual)){
-			System.err.println("Hiba: aktualis jatekos nem valid");
-			return;
-		}*/
-		PrintWriter pw;
+	/**
+	 * Játék mentése
+	 * <p>
+	 * Előre beégetett fájlba(<i>data.txt</i>) menti el a
+	 * soron levő játékost, a tábla méretét és a pálya mátrixát.
+	 * <p>
+	 * A pálya mátrixba az egyes mezők egyjegyű kavicsszámát,
+	 * illetve a tulajdonos játékos adatait menti el.
+	 * <p>
+	 * Utóbbit a következőképpen:
+	 * <br>
+	 * <ul>
+	 * <li><i>a</i> - 1. játékos</li>
+	 * <li><i>b</i> - 2. játékos</li>
+	 * <li><i>z</i> - semleges</li>
+	 * </ul> 
+	 */
+	private void ment(){
+		PrintWriter pw=null;
 		try{
 			File f = new File ("data.txt");
 			pw = new PrintWriter (f);
@@ -209,10 +245,11 @@ public class AtomicFrame extends JFrame{
 				}
 				pw.println();
             }
-			pw.close ();
 		}catch(FileNotFoundException e){
 			e.printStackTrace();
-		}    
+		}finally{
+			pw.close ();
+		}
 	}
 
     /**
@@ -234,7 +271,7 @@ public class AtomicFrame extends JFrame{
      * Újraszínezi a mezőket a tulajdonos szerint,
      * illetve felírva a rajtuk levő kövek számát.
      */
-    public void frissit(){
+    private void frissit(){
             for(int i=0;i<tabla.getX();i++){
                     for(int j=0;j<tabla.getY();j++){
                             gomb[i][j].setText(tabla.getMezo(i,j).getSzam()+"");
@@ -253,7 +290,7 @@ public class AtomicFrame extends JFrame{
      * <p>
      * Megj.: Egyelőre két előre definiált játékosra van beállítva.
      */
-    public void valt(){
+    private void valt(){
             if (aktual.equals(jatekos1)){ 
                     aktual=jatekos2;
                     cimke.setText("2. játékos jön.");
@@ -283,7 +320,7 @@ public class AtomicFrame extends JFrame{
      * mivel az algoritmus a szomszédos mezők meglétét megfigyelve,
      * továbbá rekurzívan rak le. 
      */
-    public boolean rahelyez(int x, int y, Jatekos j){
+    private boolean rahelyez(int x, int y, Jatekos j){
             if (nyert()!=null){return true;}
             Mezo mezo = tabla.getMezo(x,y);
             Jatekos mj = mezo.getJatekos();
@@ -325,7 +362,7 @@ public class AtomicFrame extends JFrame{
      * Akkor van nyertes, ha a másiknak nem marad mezője 
      * (tehát csak semleges mezők és a nyertes mezői léteznek a táblán)
     */
-    public Jatekos nyert(){
+    private Jatekos nyert(){
             boolean nemElsoLepes=false;
             Jatekos jt=null;
             for (int i=0;i<tabla.getX();i++){
@@ -351,10 +388,12 @@ public class AtomicFrame extends JFrame{
     }
 
     /**
-     * Tesztelési célokra készített ideiglenes main függvény.
+     * Main függvény.
      * <p>
      * A Swing JFrame-t külön szálon futtatja, ennek az EventListener-ek
      * miatt van jelentőssége.
+     * <p>
+     * Beégetetten 4x4-es táblát készít.
      * <p>
      *  @param args Parancssori paraméterek
      * 

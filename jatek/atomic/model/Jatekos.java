@@ -3,6 +3,7 @@ package jatek.atomic.model;
 /**
  * Játékos reprezentációját megvalósító osztály
  * @author Mészáros Balázs
+ * @author Németh Péter
  * @version 1
  */
 public class Jatekos{

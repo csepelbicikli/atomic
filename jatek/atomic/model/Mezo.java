@@ -2,6 +2,7 @@ package jatek.atomic.model;
 /**
  * A játéktér egy mezőjét reprezentáló osztály
  * @author Mészáros Balázs
+ * @author Németh Péter
  * @version 1
  */
 public class Mezo{
