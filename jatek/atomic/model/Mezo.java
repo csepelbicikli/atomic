@@ -5,7 +5,7 @@ package jatek.atomic.model;
  * @author Németh Péter
  * @version 1
  */
-public class Mezo{
+public class Mezo implements IMezo{
 	/**
          * A mezőt telítő kövek száma
          */
@@ -45,6 +45,7 @@ public class Mezo{
 	 * a köveket a szomszédok között
 	 * @return Igaz ha a mező jelenleg telített, egyébként hamis
 	 */
+        @Override
 	public boolean telitett(){
 		return(szam==limit);
 	}
@@ -53,6 +54,7 @@ public class Mezo{
          * Getter függvény, a mezőn lévő kövek számát adja vissza
          * @return Az objektum "szam" attribútuma
          */
+        @Override
 	public int getSzam(){
 		return szam;
 	}
@@ -60,6 +62,7 @@ public class Mezo{
         /**
          * A mezőn lévő kövek számát inkrementálja lépéskor
          */
+        @Override
 	public void incSzam(){
 		this.szam++;
 	}
@@ -67,6 +70,7 @@ public class Mezo{
         /**
          * Telítődéskor a mezőn lévő kövek számát alaphelyzetbe állítja
          */
+        @Override
 	public void nullazSzam(){
 		this.szam=0;
 	}
@@ -75,6 +79,7 @@ public class Mezo{
          * Getter függvény a mezőt birtokló játékos lekérdezéséhez
          * @return Az objektum "jt" attribútuma
          */
+        @Override
 	public Jatekos getJatekos(){
 		return jt;
 	}
@@ -83,6 +88,7 @@ public class Mezo{
          * A Setter függvény, a mezőt birtokló játékos megadáa a mező elfoglalásakor
          * @param jt Új játékos
          */
+        @Override
 	public void setJatekos(Jatekos jt){
 		this.jt=jt;
 	}
@@ -97,6 +103,7 @@ public class Mezo{
          * @param pLimit új limit, csak pozitív egész szám lehet
          * @exception java.lang.IllegalArgumentException
          */
+        @Override
         public void setLimit(int pLimit) throws java.lang.IllegalArgumentException{
             if (pLimit <= 0)
                 throw new java.lang.IllegalArgumentException("A mező limitje csak pozitív egész lehet");
@@ -104,4 +111,9 @@ public class Mezo{
                 this.limit = pLimit;
             }
         }
+
+    @Override
+    public int getLimit() {
+        return this.limit;
+    }
 }

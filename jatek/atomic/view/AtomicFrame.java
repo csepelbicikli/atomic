@@ -322,7 +322,7 @@ public class AtomicFrame extends JFrame{
      */
     private boolean rahelyez(int x, int y, Jatekos j){
             if (nyert()!=null){return true;}
-            Mezo mezo = tabla.getMezo(x,y);
+            IMezo mezo = tabla.getMezo(x,y);
             Jatekos mj = mezo.getJatekos();
             if (mj==null){
                     mezo.setJatekos(j);
@@ -416,7 +416,11 @@ public class AtomicFrame extends JFrame{
         for (int i = 0; i < x; i++)
             for (int j = 0; j < y; j++)
                 mezok[i][j] = new Mezo();
-        return new Tabla<>(mezok);
+        
+        Jatekos[] jatekosok = new Jatekos[2];
+        for (int i = 0; i < jatekosok.length; i++)
+            jatekosok[i] = new Jatekos(Integer.toString(i + 1) + ". játékos", Jatekos.Szin.values()[i]);
+        return new Tabla<>(mezok, jatekosok);
     }
 }
 
