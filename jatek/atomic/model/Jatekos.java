@@ -79,6 +79,7 @@ public class Jatekos{
      * @return Igaz, ha a két játékos azonosítója megegyezik, egyébként hamis
      */
     public boolean equals(Jatekos other) {
+			if(other==null){return false;}
             return (this.getID() == other.getID());
     }
 }
