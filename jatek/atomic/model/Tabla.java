@@ -12,26 +12,26 @@ package jatek.atomic.model;
  * @version 1
  */
 public class Tabla<FieldType extends IMezo> implements ITabla<FieldType> {
-    private int stepCounter = 0;
-    private boolean gameOver = false;
+    protected int stepCounter = 0;
+    protected boolean gameOver = false;
     
     /**
      * Mezőket tartalmazó 2 dimenziós konténer
      */
-    private FieldType[][] mezok;
+    protected FieldType[][] mezok;
 
     /**
      * Runnbale objektum, a run() eljárásának meg kell hívódnia, ha a tábla állapota megváltozik
      */
-    private Runnable onStateChange = null;
+    protected Runnable onStateChange = null;
 
     /**
      * Runnable objektum, a run() eljárásának meg kell hívódnia, ha valamelyik játékos nyer
      */
-    private Runnable onEndGame = null;
+    protected Runnable onEndGame = null;
     
-    private Jatekos[] jatekosok;
-    private int currJatekos = 0;
+    protected Jatekos[] jatekosok;
+    protected int currJatekos = 0;
 
     /**
      * Téglalap alakú tábla konstruálása

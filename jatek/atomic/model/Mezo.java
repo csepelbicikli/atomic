@@ -9,17 +9,17 @@ public class Mezo implements IMezo{
 	/**
          * A mezőt telítő kövek száma
          */
-	private int limit;
+	protected int limit;
         
         /**
          * A mezőn lévő kövek száma
          */
-	private int szam;
+	protected int szam;
         
         /**
          * A mezőt éppen birtokló játékos
          */
-	private Jatekos jt;
+	protected Jatekos jt;
 	
         /**
          * A mezőt inicializáló konstruktor
@@ -41,7 +41,7 @@ public class Mezo implements IMezo{
         }
 	
 	/**
-	 * Ha telített egy mező akkor nullázza a vezérlés ész szétosztja 
+	 * Ha telített egy mező akkor nullázza a vezérlés és szétosztja 
 	 * a köveket a szomszédok között
 	 * @return Igaz ha a mező jelenleg telített, egyébként hamis
 	 */
